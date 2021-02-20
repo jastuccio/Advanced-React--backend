@@ -1,3 +1,4 @@
+import { ProductImage } from './schemas/ProductImage';
 import { Product } from './schemas/Product';
 import { createAuth } from '@keystone-next/auth';
 import { User } from './schemas/Users';
@@ -44,6 +45,7 @@ export default withAuth(
       // Schema items go in here
       User,
       Product,
+      ProductImage,
     }),
     ui: {
       // Show UI only for people who pass this test
