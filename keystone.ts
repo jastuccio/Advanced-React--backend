@@ -1,19 +1,20 @@
+//J
 import { ProductImage } from './schemas/ProductImage';
-import { Product } from './schemas/Product';
 import { createAuth } from '@keystone-next/auth';
-import { User } from './schemas/Users';
 import { config, createSchema } from '@keystone-next/keystone/schema';
-import 'dotenv/config';
 import {
   withItemData,
   statelessSessions,
 } from '@keystone-next/keystone/session';
+import { Product } from './schemas/Product';
+import { User } from './schemas/User';
+import 'dotenv/config';
 
 const databaseURL =
   process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
 
 const sessionConfig = {
-  maxAge: 60 * 60 * 24 * 360, // How long should they stay signed in?
+  maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
   secret: process.env.COOKIE_SECRET,
 };
 
@@ -48,15 +49,15 @@ export default withAuth(
       ProductImage,
     }),
     ui: {
-      // Show UI only for people who pass this test
-      isAccessAllowed: ({ session }) => {
-        console.log(session);
-        return !!session?.data;
-      },
+      // Show the UI only for people who pass this test
+      isAccessAllowed: ({ session }) =>
+        // console.log(session);
+        !!session?.data,
     },
     // TODO: Add  session values here
     session: withItemData(statelessSessions(sessionConfig), {
-      User: 'id',
+      // GraphQL Query
+      User: 'id name email',
     }),
   })
 );
